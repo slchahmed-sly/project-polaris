@@ -71,7 +71,7 @@ func (r *Registry) Add(path string) error {
 		}
 	}
 
-	r.Projects = append(r.Projects, absPath)
+	r.Projects = append([]string{absPath}, r.Projects...)
 	return r.Save()
 }
 
@@ -89,5 +89,25 @@ func (r *Registry) Remove(path string) error {
 // SetCommand updates the command used to open projects and saves it.
 func (r *Registry) SetCommand(cmd []string) error {
 	r.Command = cmd
+	return r.Save()
+}
+
+// Bump moves the given path to the top of the Projects list (Most Recently Used).
+func (r *Registry) Bump(path string) error {
+	idx := -1
+	for i, p := range r.Projects {
+		if p == path {
+			idx = i
+			break
+		}
+	}
+
+	if idx <= 0 {
+		return nil
+	}
+
+	r.Projects = append(r.Projects[:idx], r.Projects[idx+1:]...)
+	r.Projects = append([]string{path}, r.Projects...)
+
 	return r.Save()
 }

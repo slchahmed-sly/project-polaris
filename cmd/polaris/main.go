@@ -84,6 +84,8 @@ func openIDE(reg *registry.Registry, targetPath string) {
 		log.Fatalf("Failed to open IDE: %v", err)
 	}
 
+	reg.Bump(targetPath)
+
 	fmt.Printf("Successfully opened %s\n", targetPath)
 }
 
