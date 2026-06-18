@@ -1,3 +1,5 @@
+<img width="2176" height="996" alt="polaris-log" src="https://github.com/user-attachments/assets/4bb82f4e-5b75-45b4-b115-aa18d24c79dc" />
+
 # Polaris
 
 **The North Star for your projects.**
