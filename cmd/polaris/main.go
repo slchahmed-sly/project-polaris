@@ -147,13 +147,13 @@ func handleHelp() {
 	fmt.Printf("%s - %s\n\n", titleStyle.Render("Polaris"), subtitleStyle.Render("The North Star for your projects."))
 
 	fmt.Println("Polaris is a fast, interactive CLI project navigator. It helps you save paths to your")
-	fmt.Println("frequently used projects and open them in your favorite IDE instantly from anywhere.\n")
+	fmt.Println("frequently used projects and open them in your favorite IDE instantly from anywhere.")
 
 	fmt.Println(headerStyle.Render("How it works:"))
 	fmt.Println("1. Navigate to a project you want to save.")
 	fmt.Printf("2. Run '%s' to register it.\n", cmdStyle.Render("polaris add ."))
 	fmt.Printf("3. Run '%s' from anywhere to launch the interactive UI.\n", cmdStyle.Render("polaris"))
-	fmt.Println("4. Select the project, and Polaris will open it in your IDE.\n")
+	fmt.Println("4. Select the project, and Polaris will open it in your IDE.")
 
 	fmt.Println(headerStyle.Render("Commands:"))
 	fmt.Printf("  %-25s Register a new project directory (e.g., 'polaris add .')\n", cmdStyle.Render("add <path>"))
