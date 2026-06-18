@@ -66,17 +66,35 @@ Once the Polaris menu is open:
 
 ## Configuration
 
-Polaris safely stores your registered paths in a standard JSON registry file locally on your machine.
+### Changing the IDE Command
+Polaris defaults to using `agy .` as the command to open your IDE. If `agy` is not available on your system, or if you prefer to use a different IDE, you can easily configure the command using `set-cmd`:
 
-Registry location:
+```bash
+# Configure Polaris to use VS Code
+polaris set-cmd code .
 
-**macOS / Linux**
+# Configure Polaris to use Cursor
+polaris set-cmd cursor .
+```
+This configuration is natively executed using Go's `exec.Command`, which means it works seamlessly across both **macOS/Linux** (resolving standard binaries in `$PATH`) and **Windows** (automatically resolving `.cmd`, `.bat`, or `.exe` files in `%PATH%`).
 
+### Registry Location
+Polaris safely stores your registered paths and configuration in a standard JSON registry file locally on your machine. The location differs depending on your OS:
+
+**macOS**
+```text
+~/Library/Application Support/polaris/projects.json
+```
+
+**Linux**
 ```text
 ~/.config/polaris/projects.json
 ```
 
-> **Note:** Polaris currently defaults to using `agy` as the command to open your IDE. Make sure this alias or command is available in your environment.
+**Windows**
+```text
+%AppData%\polaris\projects.json
+```
 
 ## Built With
 

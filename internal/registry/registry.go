@@ -13,6 +13,9 @@ type Registry struct {
 	// but the slice itself is managed internally.
 	Projects []string `json:"projects"`
 
+	// Command is the user-configured command to open a project.
+	Command []string `json:"command,omitempty"`
+
 	// filePath is unexported (lowercase), encapsulating the storage detail.
 	filePath string
 }
@@ -93,4 +96,10 @@ func (r *Registry) Remove(path string) error {
 		}
 	}
 	return nil // Path wasn't in the list anyway
+}
+
+// SetCommand updates the command used to open projects and saves it.
+func (r *Registry) SetCommand(cmd []string) error {
+	r.Command = cmd
+	return r.Save()
 }
