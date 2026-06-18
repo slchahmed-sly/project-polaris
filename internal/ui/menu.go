@@ -47,7 +47,14 @@ func RunMenu(reg *registry.Registry) (string, error) {
 
 	// 2. Configure the List component
 	m := model{registry: reg}
-	m.list = list.New(items, list.NewDefaultDelegate(), 0, 0)
+	
+	delegate := list.NewDefaultDelegate()
+	// Change selection color to a nice blue
+	blue := lipgloss.Color("39") // Deep sky blue
+	delegate.Styles.SelectedTitle = delegate.Styles.SelectedTitle.Foreground(blue).BorderLeftForeground(blue)
+	delegate.Styles.SelectedDesc = delegate.Styles.SelectedDesc.Foreground(blue).BorderLeftForeground(blue)
+
+	m.list = list.New(items, delegate, 0, 0)
 	m.list.Title = "Polaris - Select a Project"
 
 	// Add custom keybind instruction for deletion

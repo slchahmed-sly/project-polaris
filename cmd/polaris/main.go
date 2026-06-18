@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/charmbracelet/lipgloss"
 	"github.com/slchahmed-sly/project-polaris/internal/registry"
 	"github.com/slchahmed-sly/project-polaris/internal/ui"
 )
@@ -35,6 +36,8 @@ func main() {
 		handleList(reg)
 	case "set-cmd":
 		handleSetCmd(reg)
+	case "help", "-h", "--help":
+		handleHelp()
 	default:
 		fmt.Printf("Unknown command: %s\n", subcommand)
 		printUsage()
@@ -140,4 +143,35 @@ func printUsage() {
 	fmt.Println("  polaris add <path>   - Register a new project directory")
 	fmt.Println("  polaris list         - List all registered projects")
 	fmt.Println("  polaris set-cmd      - Set the command used to open projects (e.g. 'polaris set-cmd code .')")
+	fmt.Println("  polaris help         - Show detailed help information")
+}
+
+func handleHelp() {
+	titleStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("39"))
+	subtitleStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("241"))
+	headerStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("43"))
+	cmdStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("78"))
+
+	fmt.Printf("%s - %s\n\n", titleStyle.Render("Polaris"), subtitleStyle.Render("The North Star for your projects."))
+
+	fmt.Println("Polaris is a fast, interactive CLI project navigator. It helps you save paths to your")
+	fmt.Println("frequently used projects and open them in your favorite IDE instantly from anywhere.\n")
+
+	fmt.Println(headerStyle.Render("How it works:"))
+	fmt.Println("1. Navigate to a project you want to save.")
+	fmt.Printf("2. Run '%s' to register it.\n", cmdStyle.Render("polaris add ."))
+	fmt.Printf("3. Run '%s' from anywhere to launch the interactive UI.\n", cmdStyle.Render("polaris"))
+	fmt.Println("4. Select the project, and Polaris will open it in your IDE.\n")
+
+	fmt.Println(headerStyle.Render("Commands:"))
+	fmt.Printf("  %-25s Register a new project directory (e.g., 'polaris add .')\n", cmdStyle.Render("add <path>"))
+	fmt.Printf("  %-25s List all registered projects\n", cmdStyle.Render("list"))
+	fmt.Printf("  %-25s Set the command used to open projects (e.g., 'polaris set-cmd code .')\n", cmdStyle.Render("set-cmd"))
+	fmt.Printf("  %-25s Show this detailed help message\n\n", cmdStyle.Render("help, -h, --help"))
+
+	fmt.Println(headerStyle.Render("In the interactive UI:"))
+	fmt.Println("  Type to fuzzy search your projects.")
+	fmt.Println("  Press 'Enter' to open the selected project.")
+	fmt.Println("  Press 'x' or 'Delete' to remove a project from your registry.")
+	fmt.Println("  Press 'Esc' or 'q' to quit without opening.")
 }
