@@ -23,7 +23,7 @@ type item struct {
 // These three methods implement the list.Item interface required by bubbles/list
 func (i item) Title() string       { return filepath.Base(i.fullPath) }
 func (i item) Description() string { return i.displayPath }
-func (i item) FilterValue() string { return i.fullPath } // Typing filters against the whole path
+func (i item) FilterValue() string { return i.fullPath }
 
 type model struct {
 	list     list.Model
@@ -32,12 +32,10 @@ type model struct {
 }
 
 func RunMenu(reg *registry.Registry) (string, error) {
-	// 1. Convert our saved paths into list items
 	items := make([]list.Item, 0, len(reg.Projects))
 	homeDir, _ := os.UserHomeDir()
 
 	for _, p := range reg.Projects {
-		// Replace "/Users/macos" with "~" for a cleaner look
 		display := p
 		if homeDir != "" && strings.HasPrefix(p, homeDir) {
 			display = strings.Replace(p, homeDir, "~", 1)
@@ -45,26 +43,22 @@ func RunMenu(reg *registry.Registry) (string, error) {
 		items = append(items, item{fullPath: p, displayPath: display})
 	}
 
-	// 2. Configure the List component
 	m := model{registry: reg}
 	
 	delegate := list.NewDefaultDelegate()
-	// Change selection color to a nice blue
-	blue := lipgloss.Color("39") // Deep sky blue
+	blue := lipgloss.Color("39")
 	delegate.Styles.SelectedTitle = delegate.Styles.SelectedTitle.Foreground(blue).BorderLeftForeground(blue)
 	delegate.Styles.SelectedDesc = delegate.Styles.SelectedDesc.Foreground(blue).BorderLeftForeground(blue)
 
 	m.list = list.New(items, delegate, 0, 0)
 	m.list.Title = "Polaris - Select a Project"
 
-	// Add custom keybind instruction for deletion
 	m.list.AdditionalShortHelpKeys = func() []key.Binding {
 		return []key.Binding{
 			key.NewBinding(key.WithKeys("x", "delete"), key.WithHelp("x/del", "remove project")),
 		}
 	}
 
-	// 3. Run the UI
 	p := tea.NewProgram(m, tea.WithAltScreen())
 	finalModel, err := p.Run()
 	if err != nil {
@@ -85,7 +79,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 
 	case tea.KeyMsg:
-		// Don't intercept keys if the user is actively typing in the search filter
 		if m.list.FilterState() == list.Filtering {
 			break
 		}
@@ -102,16 +95,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case "x", "delete":
 			if selectedItem, ok := m.list.SelectedItem().(item); ok {
-				// Remove from disk
 				m.registry.Remove(selectedItem.fullPath)
 
-				// Remove from UI
 				index := m.list.Index()
 				m.list.RemoveItem(index)
 			}
 		}
 
-	// This handles resizing the terminal window
 	case tea.WindowSizeMsg:
 		h, v := docStyle.GetFrameSize()
 		m.list.SetSize(msg.Width-h, msg.Height-v)

@@ -21,7 +21,6 @@ func main() {
 		log.Fatalf("Failed to load registry: %v", err)
 	}
 
-	// If no arguments are passed, launch the interactive UI
 	if len(os.Args) < 2 {
 		handleUI(reg)
 		return
@@ -51,33 +50,27 @@ func handleUI(reg *registry.Registry) {
 		return
 	}
 
-	// 1. Launch the UI and wait for a selection
 	selectedPath, err := ui.RunMenu(reg)
 	if err != nil {
 		log.Fatalf("UI Error: %v", err)
 	}
 
-	// 2. If the user quit without selecting (e.g., pressed Esc)
 	if selectedPath == "" {
 		fmt.Println("Cancelled.")
 		return
 	}
 
-	// 3. Spawn the IDE process
 	openIDE(reg, selectedPath)
 }
 
 func openIDE(reg *registry.Registry, targetPath string) {
 	cmdArgs := reg.Command
 	if len(cmdArgs) == 0 {
-		// Fallback default
 		cmdArgs = []string{"agy", "."}
 	}
 
-	// Construct the command using the configured executable and arguments
 	cmd := exec.Command(cmdArgs[0], cmdArgs[1:]...)
 
-	// Set the working directory to the project the user selected
 	cmd.Dir = targetPath
 
 	// CRITICAL: Detach the I/O streams.
@@ -87,8 +80,6 @@ func openIDE(reg *registry.Registry, targetPath string) {
 	cmd.Stdout = nil
 	cmd.Stderr = nil
 
-	// Start() runs the process in the background.
-	// (Unlike Run(), which blocks until the process finishes).
 	if err := cmd.Start(); err != nil {
 		log.Fatalf("Failed to open IDE: %v", err)
 	}
@@ -96,7 +87,6 @@ func openIDE(reg *registry.Registry, targetPath string) {
 	fmt.Printf("Successfully opened %s\n", targetPath)
 }
 
-// ... keep your existing handleAdd, handleList, and printUsage functions here ...
 func handleAdd(reg *registry.Registry) {
 	if len(os.Args) < 3 {
 		fmt.Println("Usage: polaris add <path>")
