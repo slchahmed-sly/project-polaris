@@ -21,11 +21,9 @@ If you want to suggest an enhancement, please submit an issue with:
 
 1. Fork the repository and create your branch from `main`.
 2. Ensure your code follows the standard Go formatting guidelines by running `go fmt ./...`.
-3. If you've added code that should be tested, add tests.
-4. If you've changed APIs, update the documentation.
-5. Ensure the test suite passes.
-6. Make sure your code passes standard linters (e.g., `golangci-lint`).
-7. Issue that pull request!
+3. If you've changed APIs, update the documentation.
+4. Make sure your code passes standard linters (e.g., `golangci-lint`).
+5. Issue that pull request!
 
 ## Local Development Setup
 
@@ -41,9 +39,6 @@ go mod download
 
 # Build the project
 go build -o polaris cmd/polaris/main.go
-
-# Run tests
-go test ./...
 ```
 
 ## Coding Style
