@@ -98,6 +98,14 @@ Polaris safely stores your registered paths and configuration in a standard JSON
 %AppData%\polaris\projects.json
 ```
 
+## Contributing
+
+Contributions are welcome and greatly appreciated! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on how to get started, and our [Code of Conduct](CODE_OF_CONDUCT.md) to ensure a welcoming environment for everyone.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
 ## Built With
 
 - Go — The core language

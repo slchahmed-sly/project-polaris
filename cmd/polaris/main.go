@@ -1,3 +1,6 @@
+// Package main is the entry point for the Polaris CLI application.
+// Polaris is a fast, interactive CLI project navigator that helps you
+// register project paths and quickly open them in your preferred IDE.
 package main
 
 import (
@@ -11,6 +14,9 @@ import (
 	"github.com/slchahmed-sly/project-polaris/internal/ui"
 )
 
+// main is the entry point of the Polaris application. It initializes the
+// registry, loads saved projects, and routes the command line arguments
+// to the appropriate handler.
 func main() {
 	reg, err := registry.New()
 	if err != nil {
@@ -44,6 +50,8 @@ func main() {
 	}
 }
 
+// handleUI launches the interactive terminal user interface using Bubble Tea.
+// It allows the user to fuzzy search and select a project to open.
 func handleUI(reg *registry.Registry) {
 	if len(reg.Projects) == 0 {
 		fmt.Println("No projects registered. Use 'polaris add <path>' first.")
@@ -63,6 +71,9 @@ func handleUI(reg *registry.Registry) {
 	openIDE(reg, selectedPath)
 }
 
+// openIDE spawns the user's configured IDE as a detached background process
+// targeting the selected project path. It also bumps the project to the top
+// of the recently used list in the registry.
 func openIDE(reg *registry.Registry, targetPath string) {
 	cmdArgs := reg.Command
 	if len(cmdArgs) == 0 {
@@ -89,6 +100,7 @@ func openIDE(reg *registry.Registry, targetPath string) {
 	fmt.Printf("Successfully opened %s\n", targetPath)
 }
 
+// handleAdd registers a new project path into the Polaris registry.
 func handleAdd(reg *registry.Registry) {
 	if len(os.Args) < 3 {
 		fmt.Println("Usage: polaris add <path>")
@@ -103,6 +115,8 @@ func handleAdd(reg *registry.Registry) {
 	fmt.Printf("Successfully registered: %s\n", targetPath)
 }
 
+// handleSetCmd configures the default command used to open projects
+// (e.g., "code .", "cursor .", "agy .").
 func handleSetCmd(reg *registry.Registry) {
 	if len(os.Args) < 3 {
 		fmt.Println("Usage: polaris set-cmd <command> [args...]")
@@ -117,6 +131,7 @@ func handleSetCmd(reg *registry.Registry) {
 	fmt.Printf("Successfully set default command to: %v\n", commandArgs)
 }
 
+// handleList prints out all currently registered project paths to the terminal.
 func handleList(reg *registry.Registry) {
 	if len(reg.Projects) == 0 {
 		fmt.Println("No projects registered yet. Use 'polaris add <path>' to add one.")
@@ -129,6 +144,7 @@ func handleList(reg *registry.Registry) {
 	}
 }
 
+// printUsage prints a brief usage summary of the available Polaris commands.
 func printUsage() {
 	fmt.Println("Project Navigator (polaris)")
 	fmt.Println("Usage:")
@@ -138,6 +154,8 @@ func printUsage() {
 	fmt.Println("  polaris help         - Show detailed help information")
 }
 
+// handleHelp prints detailed help information, including how to use the
+// CLI commands and how to navigate the interactive UI.
 func handleHelp() {
 	titleStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("39"))
 	subtitleStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("241"))

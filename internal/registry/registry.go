@@ -1,3 +1,5 @@
+// Package registry provides functionality for persisting and managing
+// the state of saved project paths and Polaris configuration.
 package registry
 
 import (

@@ -1,3 +1,5 @@
+// Package ui provides the interactive terminal user interface for Polaris
+// using the Charm Bubble Tea framework.
 package ui
 
 import (
@@ -25,12 +27,15 @@ func (i item) Title() string       { return filepath.Base(i.fullPath) }
 func (i item) Description() string { return i.displayPath }
 func (i item) FilterValue() string { return i.fullPath }
 
+// model represents the application state for the Bubble Tea UI.
 type model struct {
 	list     list.Model
 	registry *registry.Registry
 	choice   string
 }
 
+// RunMenu initializes and starts the Bubble Tea program. It returns the
+// path of the selected project or an empty string if the user cancels.
 func RunMenu(reg *registry.Registry) (string, error) {
 	items := make([]list.Item, 0, len(reg.Projects))
 	homeDir, _ := os.UserHomeDir()
@@ -71,10 +76,13 @@ func RunMenu(reg *registry.Registry) (string, error) {
 	return "", nil
 }
 
+// Init is called when the Bubble Tea program starts.
 func (m model) Init() tea.Cmd {
 	return nil
 }
 
+// Update handles incoming events (like key presses or window resizes) and
+// updates the model accordingly.
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 
@@ -112,6 +120,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, cmd
 }
 
+// View renders the UI based on the current model state.
 func (m model) View() string {
 	return docStyle.Render(m.list.View())
 }
