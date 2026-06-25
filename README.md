@@ -24,7 +24,7 @@ Ensure you have Go installed on your system.
 To build and install Polaris globally, run:
 
 ```bash
-go install github.com/yourusername/polaris/cmd/polaris@latest
+go install github.com/slchahmed-sly/project-polaris/cmd/polaris@latest
 ```
 
 > **Note:** Ensure your `~/go/bin` directory is in your system's `$PATH` so you can run the command from anywhere.
